@@ -1,6 +1,7 @@
-intro to ggplot2
+Intro to ggplot2
 ========================================================
 author: Max Joseph & Joe Mihaljevic
+font-family: Helvetica
 date: Oct 1 2013
 
 What is ggplot2?
@@ -21,26 +22,59 @@ A syntactic and conceptual framework for producing graphics.
 
 ![](http://www.r-bloggers.com/wp-content/uploads/2006/10/2006-06-22_useR2006_GrammarGraphics_0387245448.02.LZZZZZZZ1.jpg)
 
-Grammar of graphics 2
+Elements
 ========================================================
 
-Plots emerge from components:
+Plots emerge from layered components:
+- data (= geometric objects)
+- axes (scales)
 - grouping
-- 
-- 
+- coordinate systems
 
-Implementation in ggplot2
-========================================================
-Same syntactic framework can produce a wider variety of plots
+Getting started 
+==========================
+```{r eval=FALSE}
+install.packages("ggplot2")
+```
+
 
 Data
 ==============
+ggplot2 uses data frames
+```{r}
+# load data
+data(iris)
+
+# check object class
+class(iris)
+```
+
+Aesthetics & geoms
+==========================================
+```{r fig=TRUE}
+ggplot(iris, aes(x=Species, y=Sepal.Length)) + geom_point()
+```
+
+Axes
+===================================
+ggplot2 can use many types of axes
+```{r fig=TRUE}
+ggplot(iris, aes(x=Species, y=Sepal.Length)) + geom_point() + scale_y_log10()
+```
+
+Scatter plot
+============
 
 Aesthetics
 ================
 
 Grouping
 ===============
+
+Implementation in ggplot2
+========================================================
+One syntactic framework for many plots
+
 
 Side by side comparisons
 ==============================
