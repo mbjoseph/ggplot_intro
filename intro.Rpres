@@ -1,0 +1,57 @@
+intro to ggplot2
+========================================================
+author: Max Joseph & Joe Mihaljevic
+date: Oct 1 2013
+
+What is ggplot2?
+========================================================
+
+R package for visualization based on the grammar of graphics.
+
+Developed primarily by Hadley Wickham
+
+ - [ggplot2 website](http://ggplot2.org/)
+
+ - [source code](https://github.com/hadley/ggplot2)
+
+Grammar of graphics
+========================================================
+
+A syntactic and conceptual framework for producing graphics.
+
+![](http://www.r-bloggers.com/wp-content/uploads/2006/10/2006-06-22_useR2006_GrammarGraphics_0387245448.02.LZZZZZZZ1.jpg)
+
+Grammar of graphics 2
+========================================================
+
+Plots emerge from components:
+- grouping
+- 
+- 
+
+Implementation in ggplot2
+========================================================
+Same syntactic framework can produce a wider variety of plots
+
+Data
+==============
+
+Aesthetics
+================
+
+Grouping
+===============
+
+Side by side comparisons
+==============================
+
+Specific examples
+==========================
+- scatterplot + smoothing + faceting (Joe)
+- points w. error bars (Max)
+- line plots + groupings (Max)
+- boxplots (Max)
+- faceting
+- combining plot types (gridExtra, Max)
+- stat_smooth
+- more complex plot (grouping/faceting)
