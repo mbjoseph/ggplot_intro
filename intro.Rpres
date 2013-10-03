@@ -22,6 +22,10 @@ A syntactic and conceptual framework for producing graphics.
 
 ![](http://www.r-bloggers.com/wp-content/uploads/2006/10/2006-06-22_useR2006_GrammarGraphics_0387245448.02.LZZZZZZZ1.jpg)
 
+Implementation in ggplot2
+========================================================
+One syntactic framework for many plots
+
 Elements
 ========================================================
 
@@ -51,33 +55,39 @@ class(iris)
 
 Aesthetics & geoms
 ==========================================
-```{r fig=TRUE}
+Specification in ggplot()
+```{r fig=TRUE, fig.width=9, fig.height=5}
 ggplot(iris, aes(x=Species, y=Sepal.Length)) + geom_point()
+```
+
+Aesthetics & geoms
+==========================================
+Specificying aesthetic in geom
+```{r fig=TRUE, fig.width=9, fig.height=5}
+ggplot(iris) + geom_point(aes(x=Species, y=Sepal.Length))
 ```
 
 Axes
 ===================================
-ggplot2 can use many types of axes
-```{r fig=TRUE}
+easy scaling
+```{r fig=TRUE, fig.width=9}
 ggplot(iris, aes(x=Species, y=Sepal.Length)) + geom_point() + scale_y_log10()
 ```
 
 Scatter plot
 ============
+```{r fig=TRUE, fig.width=9}
+ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length)) + geom_point()
+```
 
-Aesthetics
-================
-
-Grouping
-===============
-
-Implementation in ggplot2
-========================================================
-One syntactic framework for many plots
-
-
-Side by side comparisons
+Other aesthetics
 ==============================
+- color
+- group
+- shape
+- size
+
+All can be mapped to variables (just like x & y)
 
 Specific examples
 ==========================
