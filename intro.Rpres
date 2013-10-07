@@ -157,7 +157,7 @@ All can be mapped to variables (just like x & y)
 Specific examples
 ==========================
 - scatterplot + smoothing + faceting (Joe)
-- points w. error bars (Max)
+- points w. error bars (Max) d
 - line plots + groupings (Max)
 - boxplots (Max)
 - faceting
