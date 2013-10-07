@@ -1,3 +1,9 @@
+<style type="text/css">
+.small-code pre code {
+   font-size: 1.3em;
+}
+</style>
+
 Intro to ggplot2
 ========================================================
 author: Max Joseph & Joe Mihaljevic
@@ -37,6 +43,7 @@ Plots emerge from layered components:
 
 Getting started 
 ==========================
+class: small-code
 ```{r eval=FALSE}
 install.packages("ggplot2")
 ```
@@ -44,48 +51,106 @@ install.packages("ggplot2")
 
 Data
 ==============
+class: small-code
 ggplot2 uses data frames
 ```{r}
 # load data
-data(iris)
+data(msleep)
 
 # check object class
-class(iris)
+class(msleep)
 ```
 
 Aesthetics & geoms
 ==========================================
+class: small-code
 Specification in ggplot()
-```{r fig=TRUE, fig.width=9, fig.height=5}
-ggplot(iris, aes(x=Species, y=Sepal.Length)) + geom_point()
+```{r fig=TRUE, fig.width=12, fig.height=6}
+ggplot(msleep, aes(x=bodywt, y=brainwt)) + geom_point()
 ```
 
 Aesthetics & geoms
 ==========================================
+class: small-code
 Specificying aesthetic in geom
-```{r fig=TRUE, fig.width=9, fig.height=5}
-ggplot(iris) + geom_point(aes(x=Species, y=Sepal.Length))
+```{r fig=TRUE, fig.width=12, fig.height=6}
+ggplot(msleep) + geom_point(aes(x=bodywt, y=brainwt))
 ```
 
-Axes
+Axis scaling
 ===================================
-easy scaling
-```{r fig=TRUE, fig.width=9}
-ggplot(iris, aes(x=Species, y=Sepal.Length)) + geom_point() + scale_y_log10()
+class: small-code
+```{r fig=TRUE, fig.width=12, fig.height=6}
+ggplot(msleep, aes(x=bodywt, y=brainwt)) + geom_point() + scale_y_log10() + scale_x_log10()
 ```
 
-Scatter plot
+Black and white theme
+=======
+class: small-code
+```{r fig=TRUE, fig.width=12, fig.height=6}
+ggplot(msleep, aes(x=bodywt, y=brainwt)) + geom_point() + scale_y_log10() + scale_x_log10() + theme_bw()
+```
+
+Classic theme
+=============
+class: small-code
+```{r fig=TRUE, fig.width=12, fig.height=6}
+ggplot(msleep, aes(x=bodywt, y=brainwt)) + geom_point() + scale_y_log10() + scale_x_log10() + theme_classic()
+```
+
+Smoothing
 ============
-```{r fig=TRUE, fig.width=9}
-ggplot(iris, aes(x=Sepal.Width, y=Sepal.Length)) + geom_point()
+class: small-code
+```{r fig=TRUE, fig.width=12, fig.height=6}
+ggplot(msleep, aes(x=bodywt, y=brainwt)) + geom_point() + scale_y_log10() + scale_x_log10() + stat_smooth()
+```
+
+OLS regression line
+====================
+class: small-code
+```{r fig=TRUE, fig.width=12, fig.height=6}
+ggplot(msleep, aes(x=bodywt, y=brainwt)) + geom_point() + scale_y_log10() + scale_x_log10() +  stat_smooth(method="lm")
+```
+
+Faceting
+=============
+class: small-code
+```{r fig=TRUE, fig.width=12, fig.height=6}
+ggplot(msleep, aes(x=bodywt, y=brainwt)) + geom_point() + scale_y_log10() + scale_x_log10() +  stat_smooth(method="lm") + facet_wrap(~vore)
+```
+
+Line plots
+==============
+class: small-code
+```{r fig=TRUE, fig.width=12, fig.height=6}
+data(co2)
+ggplot(data.frame(co2), aes(x=1:length(co2), y=co2)) + geom_line()
+```
+
+Box plots
+=========
+class: small-code
+```{r fig=T, fig.width=12, fig.height=6}
+ggplot(msleep, aes(x=conservation, y=awake)) + geom_boxplot()
+```
+
+Combining plot types
+====================
+class: small-code
+```{r fig=T, fig.width=15, fig.height=6}
+require(gridExtra)
+p1 <- ggplot(msleep, aes(x=conservation, y=awake)) + geom_boxplot()
+p2 <- ggplot(msleep, aes(x=sleep_cycle, y=awake, color=conservation)) + geom_point() + stat_smooth(method="lm")
+grid.arrange(p1, p2, ncol=2)
 ```
 
 Other aesthetics
 ==============================
-- color
-- group
 - shape
 - size
+- linetype
+- alpha
+- fill
 
 All can be mapped to variables (just like x & y)
 
