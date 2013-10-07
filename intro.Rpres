@@ -1,6 +1,6 @@
 <style type="text/css">
 .small-code pre code {
-   font-size: 1.3em;
+   font-size: 1.1em;
 }
 </style>
 
@@ -32,9 +32,28 @@ Implementation in ggplot2
 ========================================================
 One syntactic framework for many plots
 
+^ major advantage over `base` graphics
+
 Elements
 ========================================================
+Plots emerge from layered components:
+- data (= geometric objects)
 
+Elements
+========================================================
+Plots emerge from layered components:
+- data (= geometric objects)
+- axes (scales)
+
+Elements
+========================================================
+Plots emerge from layered components:
+- data (= geometric objects)
+- axes (scales)
+- grouping
+
+Elements
+========================================================
 Plots emerge from layered components:
 - data (= geometric objects)
 - axes (scales)
@@ -61,87 +80,125 @@ data(msleep)
 class(msleep)
 ```
 
-Aesthetics & geoms
+Scatterplot
 ==========================================
 class: small-code
-Specification in ggplot()
-```{r fig=TRUE, fig.width=12, fig.height=6}
-ggplot(msleep, aes(x=bodywt, y=brainwt)) + geom_point()
+```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
+p <- ggplot(msleep, aes(x=bodywt, y=brainwt)) + geom_point()
+p
 ```
 
 Aesthetics & geoms
 ==========================================
 class: small-code
-Specificying aesthetic in geom
-```{r fig=TRUE, fig.width=12, fig.height=6}
+```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
 ggplot(msleep) + geom_point(aes(x=bodywt, y=brainwt))
 ```
 
 Axis scaling
 ===================================
 class: small-code
-```{r fig=TRUE, fig.width=12, fig.height=6}
-ggplot(msleep, aes(x=bodywt, y=brainwt)) + geom_point() + scale_y_log10() + scale_x_log10()
+```{r fig=TRUE, fig.width=12, fig.height=6, fig.align="center",}
+p <- p + scale_y_log10() + scale_x_log10()
+p
 ```
 
 Black and white theme
 =======
 class: small-code
-```{r fig=TRUE, fig.width=12, fig.height=6}
-ggplot(msleep, aes(x=bodywt, y=brainwt)) + geom_point() + scale_y_log10() + scale_x_log10() + theme_bw()
+```{r fig=TRUE, fig.width=12, fig.height=6, fig.align="center"}
+p <- p + theme_bw()
+p
 ```
 
 Classic theme
 =============
 class: small-code
-```{r fig=TRUE, fig.width=12, fig.height=6}
-ggplot(msleep, aes(x=bodywt, y=brainwt)) + geom_point() + scale_y_log10() + scale_x_log10() + theme_classic()
+```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
+p + theme_classic()
 ```
 
 Smoothing
 ============
 class: small-code
-```{r fig=TRUE, fig.width=12, fig.height=6}
-ggplot(msleep, aes(x=bodywt, y=brainwt)) + geom_point() + scale_y_log10() + scale_x_log10() + stat_smooth()
+```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
+p + stat_smooth()
 ```
 
 OLS regression line
 ====================
 class: small-code
-```{r fig=TRUE, fig.width=12, fig.height=6}
-ggplot(msleep, aes(x=bodywt, y=brainwt)) + geom_point() + scale_y_log10() + scale_x_log10() +  stat_smooth(method="lm")
+```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
+p <- p + stat_smooth(method="lm")
+p
 ```
 
 Faceting
 =============
 class: small-code
-```{r fig=TRUE, fig.width=12, fig.height=6}
-ggplot(msleep, aes(x=bodywt, y=brainwt)) + geom_point() + scale_y_log10() + scale_x_log10() +  stat_smooth(method="lm") + facet_wrap(~vore)
+```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
+p + facet_wrap(~vore)
 ```
+
+Color
+======
+class: small-code
+```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
+p + geom_point(aes(color=vore), size=3)
+```
+
 
 Line plots
 ==============
 class: small-code
-```{r fig=TRUE, fig.width=12, fig.height=6}
+```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
 data(co2)
 ggplot(data.frame(co2), aes(x=1:length(co2), y=co2)) + geom_line()
+```
+
+Strip plots
+===========
+```{r fig=T, fig.align="center", fig.width=12, fig.height=6}
+p2 <- ggplot(msleep, aes(x=conservation, y=awake)) + geom_point()
+p2 
 ```
 
 Box plots
 =========
 class: small-code
-```{r fig=T, fig.width=12, fig.height=6}
+```{r fig=T, fig.align="center", fig.width=12, fig.height=6}
 ggplot(msleep, aes(x=conservation, y=awake)) + geom_boxplot()
+```
+
+Dynamite plots
+==============
+Please don't.   
+![](http://i.imgur.com/A82Bvrg.png)
+
+Dynamite plots
+==============
+class: small-code
+```{r fig=T, fig.align="center", fig.width=12, fig.height=6}
+sumd <- aggregate(awake ~ conservation, data=msleep, FUN=mean)
+sumd$sd <- aggregate(awake ~ conservation, data=msleep, FUN=sd)[,2]
+limits <- aes(ymax = awake + sd, ymin = awake - sd)
+p3 <- ggplot(sumd, aes(x=conservation, y=awake)) + geom_bar(fill="grey") + theme_classic()
+p3
+```
+
+Dynamite plots
+==============
+class: small-code
+```{r fig=T, fig.align="center", fig.width=12, fig.height=6}
+p3 + geom_errorbar(limits, width=0.25)
 ```
 
 Combining plot types
 ====================
 class: small-code
-```{r fig=T, fig.width=15, fig.height=6}
+```{r fig=T, fig.align="center", fig.width=15, fig.height=6}
 require(gridExtra)
-p1 <- ggplot(msleep, aes(x=conservation, y=awake)) + geom_boxplot()
-p2 <- ggplot(msleep, aes(x=sleep_cycle, y=awake, color=conservation)) + geom_point() + stat_smooth(method="lm")
-grid.arrange(p1, p2, ncol=2)
+grid.arrange(p, p2 + theme_bw(), ncol=2)
 ```
 
 Other aesthetics
@@ -152,15 +209,43 @@ Other aesthetics
 - alpha
 - fill
 
-All can be mapped to variables (just like x & y)
+All can be mapped to variables
 
-Specific examples
-==========================
-- scatterplot + smoothing + faceting (Joe)
-- points w. error bars (Max) d
-- line plots + groupings (Max)
-- boxplots (Max)
-- faceting
-- combining plot types (gridExtra, Max)
-- stat_smooth
-- more complex plot (grouping/faceting)
+Other geoms
+===========
+- jitter
+- text
+- segment
+- polygon
+- rect
+- rug
+- step
+- density
+- contour
+
+
+Extensions
+==========
+- ggdendro
+- ggmcmc
+- ggmap
+- GGally
+- ggROC
+- ggthemes
+
+Questions?
+==========
+
+Your turn
+=========
+### `msleep`
+1) Make a scatterplot of `sleep_total` vs. `sleep_rem`   
+2) Make point size proportional to log(body mass)   
+3) Add a OLS regression line   
+4) Color-code the points according to `vore`. Does the scaling of REM & total sleep differ w/ diet?   
+
+### `movies`
+1) Plot a histogram of `rating`    
+2) Plot the overall density of `rating`, changing your code as little as possible   
+3) Plot the density of `rating` for each `mpaa` level (using color, fill, or facet)
+
