@@ -72,6 +72,9 @@ Data
 ==============
 class: small-code
 ggplot2 uses data frames
+```{r, echo=FALSE}
+library(ggplot2)
+```
 ```{r}
 # load data
 data(msleep)
@@ -83,41 +86,63 @@ class(msleep)
 Scatterplot
 ==========================================
 class: small-code
-```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
+```{r}
 p <- ggplot(msleep, aes(x=bodywt, y=brainwt)) + geom_point()
+```
+```{r echo=FALSE}
+p <- p +
+  theme(axis.title=element_text(face="bold", size=24, vjust=0.3),
+        axis.text=element_text(size=20, color="black"))+
+  labs(x="Body Weight", y="Brain Weight")
+```
+```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
 p
 ```
 
 Aesthetics & geoms
 ==========================================
 class: small-code
-```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
-ggplot(msleep) + geom_point(aes(x=bodywt, y=brainwt))
+```{r}
+alt <- ggplot(msleep) + geom_point(aes(x=bodywt, y=brainwt))
+```
+```{r echo=FALSE}
+alt <- alt + theme(axis.title=element_text(face="bold", size=24, vjust=0.3),
+        axis.text=element_text(size=20, color="black"))+
+  labs(x="Body Weight", y="Brain Weight")
+```
+```{r fig.align="center", fig.width=12, fig.height=6}
+alt
 ```
 
 Axis scaling
 ===================================
 class: small-code
-```{r fig=TRUE, fig.width=12, fig.height=6, fig.align="center",}
+```{r}
 p <- p + scale_y_log10() + scale_x_log10()
-p
 ```
-
-Black and white theme
-=======
-class: small-code
-```{r fig=TRUE, fig.width=12, fig.height=6, fig.align="center"}
-p <- p + theme_bw()
+```{r echo=FALSE}
+p <- p + theme(axis.text.y=element_text(angle=90, hjust=0.5))
+```
+```{r fig=TRUE, fig.width=12, fig.height=6, fig.align="center",}
 p
 ```
 
 Classic theme
 =============
 class: small-code
-```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
-p + theme_classic()
+```{r}
+p <- p + theme_classic()
 ```
-
+```{r echo=FALSE}
+p <- p +
+  theme(axis.title=element_text(face="bold", size=24, vjust=0.3),
+        axis.text=element_text(size=20, color="black"),
+        axis.text.y=element_text(angle=90, hjust=0.5))+
+  labs(x="Body Weight", y="Brain Weight")
+```
+```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
+p
+```
 Smoothing
 ============
 class: small-code
@@ -136,39 +161,57 @@ p
 Faceting
 =============
 class: small-code
-```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
+```{r eval=FALSE}
 p + facet_wrap(~vore)
+```
+```{r echo=FALSE, fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
+p + facet_wrap(~vore)+
+  theme(strip.text=element_text(size=20))
 ```
 
 Color
 ======
 class: small-code
-```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
+```{r eval=FALSE}
 p + geom_point(aes(color=vore), size=3)
 ```
-
+```{r echo=FALSE, fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
+p + geom_point(aes(color=vore), size=3)+
+  theme(legend.text=element_text(size=20),
+        legend.title=element_text(size=22, face="bold"))
+```
 
 Line plots
 ==============
 class: small-code
-```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
+```{r}
 data(co2)
-ggplot(data.frame(co2), aes(x=1:length(co2), y=co2)) + geom_line()
+lp <- ggplot(data.frame(co2), aes(x=1:length(co2), y=co2)) + geom_line()
 ```
-
-Strip plots
-===========
-class: small-code
-```{r fig=T, fig.align="center", fig.width=12, fig.height=6}
-p2 <- ggplot(msleep, aes(x=conservation, y=awake)) + geom_point()
-p2 
+```{r echo=FALSE}
+lp <- lp +
+  labs(x="ID order", y=expression(paste("CO"[2], sep="")))+
+  theme(axis.title=element_text(face="bold", size=24, lineheight=0.5),
+        axis.text=element_text(size=20, color="black"))
+```
+```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
+lp
 ```
 
 Box plots
 =========
 class: small-code
-```{r fig=T, fig.align="center", fig.width=12, fig.height=6}
-ggplot(msleep, aes(x=conservation, y=awake)) + geom_boxplot()
+```{r}
+bp <- ggplot(msleep, aes(x=conservation, y=awake)) + geom_boxplot()
+```
+```{r echo=FALSE}
+bp <- bp +
+  labs(x="Conservation", y="Awake")+
+  theme(axis.title=element_text(face="bold", size=24, lineheight=0.5),
+        axis.text=element_text(size=20, color="black"))
+```
+```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
+bp
 ```
 
 Dynamite plots
@@ -179,27 +222,44 @@ Please don't.
 Dynamite plots
 ==============
 class: small-code
-```{r fig=T, fig.align="center", fig.width=12, fig.height=6}
+First you have to create error bar parameters
+```{r}
 sumd <- aggregate(awake ~ conservation, data=msleep, FUN=mean)
+
 sumd$sd <- aggregate(awake ~ conservation, data=msleep, FUN=sd)[,2]
+
 limits <- aes(ymax = awake + sd, ymin = awake - sd)
-p3 <- ggplot(sumd, aes(x=conservation, y=awake)) + geom_bar(fill="grey") + theme_classic()
-p3
 ```
 
 Dynamite plots
 ==============
 class: small-code
+```{r}
+dyp <- ggplot(sumd, aes(x=conservation, y=awake)) + geom_bar(fill="grey") + theme_classic()
+```
+```{r echo=FALSE}
+dyp <- dyp +
+  labs(x="Conservation", y="Awake")+
+  theme(axis.title=element_text(face="bold", size=24, lineheight=0.5),
+        axis.text=element_text(size=20, color="black"))
+```
+```{r fig=TRUE, fig.align="center", fig.width=12, fig.height=6}
+dyp
+```
+Dynamite plots
+==============
+class: small-code
+Add your error bars
 ```{r fig=T, fig.align="center", fig.width=12, fig.height=6}
-p3 + geom_errorbar(limits, width=0.25)
+dyp + geom_errorbar(limits, width=0.25)
 ```
 
 Combining plot types
 ====================
 class: small-code
-```{r fig=T, fig.align="center", fig.width=15, fig.height=6}
+```{r fig=T, fig.align="center", fig.width=20, fig.height=6}
 require(gridExtra)
-grid.arrange(p, p2 + theme_bw(), ncol=2)
+grid.arrange(p, bp, ncol=2)
 ```
 
 Other aesthetics
@@ -249,4 +309,3 @@ Your turn
 1) Plot a histogram of `rating`    
 2) Plot the overall density of `rating`, changing your code as little as possible   
 3) Plot the density of `rating` for each `mpaa` level (using color, fill, or facet)
-
