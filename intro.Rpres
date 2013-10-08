@@ -65,6 +65,7 @@ Getting started
 class: small-code
 ```{r eval=FALSE}
 install.packages("ggplot2")
+require(ggplot2)
 ```
 
 
@@ -72,9 +73,7 @@ Data
 ==============
 class: small-code
 ggplot2 uses data frames
-```{r, echo=FALSE}
-library(ggplot2)
-```
+
 ```{r}
 # load data
 data(msleep)
