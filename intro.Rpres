@@ -37,28 +37,11 @@ One syntactic framework for many plots
 Elements
 ========================================================
 Plots emerge from layered components:
-- data (= geometric objects)
-
-Elements
-========================================================
-Plots emerge from layered components:
-- data (= geometric objects)
-- axes (scales)
-
-Elements
-========================================================
-Plots emerge from layered components:
-- data (= geometric objects)
-- axes (scales)
-- grouping
-
-Elements
-========================================================
-Plots emerge from layered components:
-- data (= geometric objects)
-- axes (scales)
-- grouping
-- coordinate systems
+- aesthetics (roles variables play)
+- geometric objects
+- scales 
+- stats
+- facets
 
 Getting started 
 ==========================
